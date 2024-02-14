@@ -6,51 +6,41 @@ import {
   StyleSheet,
   Text,
   StatusBar,
+  Button
 } from 'react-native';
 
-
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
-
-const Item = ({title}) => (
+const Item = ({title,content }) => (
   <View style={styles.item}>
     <Text style={styles.title}>{title}</Text>
+    <Text style={styles.content}>{content}</Text>
   </View>
 );
 
-const Main = () => {
+const Main = ({navigation}) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch('https://notas-0c0y.onrender.com/notas')
       .then((response) => response.json()) // Corrección aquí
       .then((res) => {
-        setData(res);
-        console.log(res); // Mover este console.log aquí para asegurarse de que se imprima después de que se actualice el estado
+        setData(res); // Mover este console.log aquí para asegurarse de que se imprima después de que se actualice el estado
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, []);
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={DATA}
-        renderItem={({item}) => <Item title={item.title} />}
-        keyExtractor={item => item.id}
+        data={data}
+        renderItem={({item})=> {
+          return (<Item title={item.title} content={item.content}></Item>)
+        }}
+      />
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Details')}
       />
     </SafeAreaView>
   );
@@ -69,7 +59,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   title: {
-    fontSize: 32,
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  content: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 

@@ -1,0 +1,8 @@
+POST https://notas-0c0y.onrender.com/notas
+Content-Type: application/json
+
+{
+    "title": "Creandon una nota",
+    "content": "Se creo una nota",
+    "important": true
+}

@@ -2,10 +2,10 @@ import { View, Text, StyleSheet } from 'react-native'
 import Main from './../components/Main';
 import React from 'react'
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
     return (
         <View style={styles.container}>
-            <Main />
+            <Main navigation={navigation}/>
         </View>
     )
 }
