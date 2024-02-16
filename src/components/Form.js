@@ -1,9 +1,9 @@
 import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-native-web'
-import { guardarNotas } from '../../api'
+import { guardarNotas, obtenerNotas } from '../../api'
 
-export default function Form({navigation}) {
+export default function Form({ navigation }) {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
 
@@ -15,7 +15,8 @@ export default function Form({navigation}) {
             content: content,
         }
         guardarNotas(NewNote)
-        navigation.navigate('Home')
+        navigation.navigate('Home', { isQuery: true })
+
     }
     return (
         <View style={styles.container}>

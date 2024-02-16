@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   SafeAreaView,
   View,
@@ -11,24 +11,28 @@ import {
 import { obtenerNotas } from '../../api';
 import { RefreshControl } from 'react-native';
 
-const Item = ({title,content }) => (
+const Item = ({ title, content }) => (
   <View style={styles.item}>
     <Text style={styles.title}>{title}</Text>
     <Text style={styles.content}>{content}</Text>
   </View>
 );
 
-const Main = ({navigation}) => {
+const Main = ({ navigation, isQuery }) => {
+  //const isQuery = routes?.params?.isQuery ? routes?.params?.isQuery : false
   const [data, setData] = useState([]);
   const [refreshing, setrefreshing] = useState(false)
 
-  const cargarNotas = async() => {
+  const cargarNotas = async () => {
     const res = await obtenerNotas()
     console.log('loaded');
     setData(res)
   }
   useEffect(() => {
-    cargarNotas()
+    console.log("IS QUERY MAIN",isQuery);
+    if(isQuery) {
+      cargarNotas()
+    }
   }, []);
   const refresh = useCallback(async () => {
     console.log('Refresh');
@@ -43,12 +47,12 @@ const Main = ({navigation}) => {
         data={data}
         refreshControl={
           <RefreshControl
-            onRefresh={() => refresh}
+            onRefresh={refresh}
             colors={['#0af']}
             refreshing={refreshing}
-            />
+          />
         }
-        renderItem={({item})=> {
+        renderItem={({ item }) => {
           return (<Item title={item.title} content={item.content}></Item>)
         }}
       />
