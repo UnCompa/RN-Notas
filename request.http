@@ -1,8 +1,8 @@
-POST https://notas-0c0y.onrender.com/notas
+PUT  https://notas-0c0y.onrender.com/notas/65ce01b9fffcf15a0336f10d
 Content-Type: application/json
 
 {
-    "title": "Creandon una nota",
+    "title": "Creando una nota",
     "content": "Se creo una nota",
-    "important": true
+    "important": false
 }

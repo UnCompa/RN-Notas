@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   SafeAreaView,
   View,
@@ -8,6 +8,8 @@ import {
   StatusBar,
   Button
 } from 'react-native';
+import { obtenerNotas } from '../../api';
+import { RefreshControl } from 'react-native';
 
 const Item = ({title,content }) => (
   <View style={styles.item}>
@@ -18,28 +20,40 @@ const Item = ({title,content }) => (
 
 const Main = ({navigation}) => {
   const [data, setData] = useState([]);
+  const [refreshing, setrefreshing] = useState(false)
 
+  const cargarNotas = async() => {
+    const res = await obtenerNotas()
+    console.log('loaded');
+    setData(res)
+  }
   useEffect(() => {
-    fetch('https://notas-0c0y.onrender.com/notas')
-      .then((response) => response.json()) // Corrección aquí
-      .then((res) => {
-        setData(res); // Mover este console.log aquí para asegurarse de que se imprima después de que se actualice el estado
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+    cargarNotas()
   }, []);
+  const refresh = useCallback(async () => {
+    console.log('Refresh');
+    setrefreshing(true)
+    await cargarNotas()
+    setrefreshing(false)
+  })
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={data}
+        refreshControl={
+          <RefreshControl
+            onRefresh={() => refresh}
+            colors={['#0af']}
+            refreshing={refreshing}
+            />
+        }
         renderItem={({item})=> {
           return (<Item title={item.title} content={item.content}></Item>)
         }}
       />
       <Button
-        title="Go to Details"
+        title="Crear una nota"
         onPress={() => navigation.navigate('Details')}
       />
     </SafeAreaView>

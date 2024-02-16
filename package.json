@@ -12,6 +12,7 @@
     "@expo/webpack-config": "~19.0.1",
     "@react-navigation/native": "^6.1.10",
     "@react-navigation/native-stack": "^6.9.18",
+    "crypto": "^1.0.1",
     "expo": "~50.0.5",
     "expo-constants": "~15.4.5",
     "expo-status-bar": "~1.11.1",
