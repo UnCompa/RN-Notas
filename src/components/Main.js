@@ -47,8 +47,9 @@ const Main = ({ navigation }) => {
           return (<Item title={item.title} content={item.content} important={item.important}></Item>)
         }}
       />
-      <Button
-        title="Crear una nota"
+      <Butto
+        title="+"
+        colors='#oaf'
         onPress={() => navigation.navigate('Details')}
       />
     </SafeAreaView>
