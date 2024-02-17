@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native'
 import Main from './../components/Main';
 import React from 'react'
+import { StatusBar } from 'react-native';
 
-export default function HomeScreen({ navigation, routes }) {
-    const isQuery = routes?.params?.isQuery ? routes?.params?.isQuery : false
-    console.log("IS QUERY HOME", isQuery);
+export default function HomeScreen({ navigation }) {
     return (
         <View style={styles.container}>
-            <Main navigation={navigation} isQuery={isQuery} />
+            <Main navigation={navigation} />
+            <StatusBar backgroundColor="#ffffff" barStyle={'dark-content'} animated={true}/>
         </View>
     )
 }
@@ -15,6 +15,5 @@ export default function HomeScreen({ navigation, routes }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1
-
     }
 })

@@ -3,16 +3,17 @@ import React, { useState } from 'react'
 import useNotasStore from '../store/Notes'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-export default function Form({ navigation }) {
+export default function UpdateForm({ navigation, item }) {
+    console.log(item.important);
 
-    const [title, setTitle] = useState('')
+    const [title, setTitle] = useState(item.title)
     const [autor, setAutor] = useState('')
-    const [content, setContent] = useState('')
-    const [isChecked, setIsChecked] = useState(false); 
-    const {guardarNotas, cargarNotas} = useNotasStore(state => state)
+    const [content, setContent] = useState(item.content)
+    const [isChecked, setIsChecked] = useState(item.important); 
+    const {actualizarNota, cargarNotas} = useNotasStore(state => state)
     const handleSubmit = () => {
 
-        const check = !isChecked
+        const check = isChecked
 
         const NewNote = {
             title: title,
@@ -20,7 +21,7 @@ export default function Form({ navigation }) {
             important: check,
         }
         console.log(NewNote);
-        guardarNotas(NewNote)
+        actualizarNota(item.id, NewNote)
         navigation.navigate('Home')
         cargarNotas()
     }
@@ -29,7 +30,7 @@ export default function Form({ navigation }) {
             <View style={styles.form}>
             <Text style={styles.title}>Titulo:</Text>
             <View style={styles.input}>
-                <TextInput styles={styles.input} onChangeText={text => setTitle(text)}></TextInput>
+                <TextInput styles={styles.input} value={title} onChangeText={text => setTitle(text)}></TextInput>
             </View>
             <Text style={styles.title}>Autor:</Text>
             <View style={styles.input2}>
@@ -37,19 +38,18 @@ export default function Form({ navigation }) {
             </View>
             <Text style={styles.title}>Contenido:</Text>
             <View style={styles.input2}>
-                <TextInput styles={styles.input} multiline onChangeText={text => setContent(text)}></TextInput>
+                <TextInput styles={styles.input} value={content} multiline onChangeText={text => setContent(text)}></TextInput>
             </View>
             <Pressable onPress={() => {
                 setIsChecked(!isChecked)
-                console.log(isChecked);
             }}>
                     <View style={styles.checkbox}>
-                        {isChecked ? <Icon name="square-o" size={24} color="red" /> : <Icon name="check-square" size={24} color="red" />}
+                        {!isChecked ? <Icon name="square-o" size={24} color="red" /> : <Icon name="check-square" size={24} color="red" />}
                         <Text style={styles.checkbutton}>Importante</Text>
                     </View>
                 </Pressable>
             <Pressable style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.textbutton}>Crear</Text>
+                <Text style={styles.textbutton}>Actualizar</Text>
             </Pressable>
         </View>
         </View>
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     },
     button: {
         marginVertical: 10,
-        backgroundColor: '#0af',
+        backgroundColor: 'green',
         padding: 8,
     },
     textbutton: {
