@@ -1,16 +1,16 @@
-import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Pressable, TouchableHighlight, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import useNotasStore from '../store/Notes'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/Feather'
 
 export default function UpdateForm({ navigation, item }) {
     console.log(item.important);
 
     const [title, setTitle] = useState(item.title)
-    const [autor, setAutor] = useState('')
+    const [autor, setAutor] = useState(item.autor)
     const [content, setContent] = useState(item.content)
-    const [isChecked, setIsChecked] = useState(item.important); 
-    const {actualizarNota, cargarNotas} = useNotasStore(state => state)
+    const [isChecked, setIsChecked] = useState(item.important);
+    const { actualizarNota, cargarNotas } = useNotasStore(state => state)
     const handleSubmit = () => {
 
         const check = isChecked
@@ -18,6 +18,7 @@ export default function UpdateForm({ navigation, item }) {
         const NewNote = {
             title: title,
             content: content,
+            autor: autor,
             important: check,
         }
         console.log(NewNote);
@@ -27,31 +28,31 @@ export default function UpdateForm({ navigation, item }) {
     }
     return (
         <View style={styles.container}>
-            <View style={styles.form}>
-            <Text style={styles.title}>Titulo:</Text>
-            <View style={styles.input}>
-                <TextInput styles={styles.input} value={title} onChangeText={text => setTitle(text)}></TextInput>
-            </View>
-            <Text style={styles.title}>Autor:</Text>
-            <View style={styles.input2}>
-                <TextInput styles={styles.input} multiline onChangeText={text => setAutor(text)}></TextInput>
-            </View>
-            <Text style={styles.title}>Contenido:</Text>
-            <View style={styles.input2}>
-                <TextInput styles={styles.input} value={content} multiline onChangeText={text => setContent(text)}></TextInput>
-            </View>
-            <Pressable onPress={() => {
-                setIsChecked(!isChecked)
-            }}>
+            <ScrollView style={styles.form}>
+                <Text style={styles.title}>Titulo:</Text>
+                <View style={styles.input}>
+                    <TextInput styles={styles.input} value={title} onChangeText={text => setTitle(text)}></TextInput>
+                </View>
+                <Text style={styles.title}>Autor:</Text>
+                <View style={styles.input2}>
+                    <TextInput styles={styles.input} value={autor} onChangeText={text => setAutor(text)}></TextInput>
+                </View>
+                <Text style={styles.title}>Contenido:</Text>
+                <View style={styles.input2}>
+                    <TextInput styles={styles.input} value={content} multiline onChangeText={text => setContent(text)}></TextInput>
+                </View>
+                <Pressable onPress={() => {
+                    setIsChecked(!isChecked)
+                }}>
                     <View style={styles.checkbox}>
-                        {!isChecked ? <Icon name="square-o" size={24} color="red" /> : <Icon name="check-square" size={24} color="red" />}
+                        {!isChecked ? <Icon name="square" size={24} color="red" /> : <Icon name="check-square" size={24} color="red" />}
                         <Text style={styles.checkbutton}>Importante</Text>
                     </View>
                 </Pressable>
-            <Pressable style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.textbutton}>Actualizar</Text>
-            </Pressable>
-        </View>
+            </ScrollView>
+            <TouchableHighlight style={styles.button} onPress={handleSubmit}>
+            <Icon name="arrow-up-circle" size={25} color="white" />
+            </TouchableHighlight>
         </View>
     )
 }
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
     },
     form: {
         padding: 20,
+        flex: 1
     },
     title: {
         color: '#fff',
@@ -90,9 +92,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff"
     },
     button: {
-        marginVertical: 10,
-        backgroundColor: 'green',
-        padding: 8,
+        backgroundColor: "#121212",
+        height: 52,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderTopLeftRadius: 32,
+        borderTopRightRadius: 32,
     },
     textbutton: {
         color: 'white',
@@ -108,6 +113,7 @@ const styles = StyleSheet.create({
     checkbox: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 16,
+        marginBottom: 32,
     },
 })

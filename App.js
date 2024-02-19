@@ -1,12 +1,13 @@
 // In App.js in a new project
 
 import * as React from "react";
-import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./src/screens/HomeScreen";
-import Details from "./src/screens/Details";
+import CreateNote from "./src/screens/CreateNote";
 import UpdatedNote from "./src/screens/UpdateNote";
+import Nota from "./src/screens/Nota";
+import Icon from "react-native-vector-icons/Feather";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,18 +15,51 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} 
-          options={{title: "Notas"}}
+        <Stack.Screen name="Home" component={HomeScreen}
+          options={{
+            title: "NoteEase",
+            headerStyle: {
+              backgroundColor: '#323232'
+            },
+            headerTintColor: "#fff",
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontWeight: 'bold'
+            }
+          }}
         />
         <Stack.Screen
-          name="Details"
-          component={Details}
-          options={{ title: "Crea tu nota" }}
+          name="CreateNote"
+          component={CreateNote}
+          options={{
+            title: "Crea tu nota",
+            headerStyle: {
+              backgroundColor: '#323232'
+            },
+            headerTintColor: "#fff",
+          }}
         />
         <Stack.Screen
           name="Create"
           component={UpdatedNote}
-          options={{title: 'Actualiza tu nota!'}}
+          options={{
+            title: 'Actualiza tu nota!',
+            headerStyle: {
+              backgroundColor: '#323232'
+            },
+            headerTintColor: "#fff",
+          }}
+        />
+        <Stack.Screen
+          name="Nota"
+          component={Nota}
+          options={{
+            title: 'Regresar',
+            headerStyle: {
+              backgroundColor: '#323232'
+            },
+            headerTintColor: "#fff",
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

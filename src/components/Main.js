@@ -58,7 +58,7 @@ const Main = ({ navigation }) => {
           </View>
         }
       />
-      <TouchableHighlight style={styles.create} onPress={() => navigation.navigate('Details')}>
+      <TouchableHighlight style={styles.create} onPress={() => navigation.navigate('CreateNote')}>
         <Icon name="plus" size={20} color='#fff'/>
       </TouchableHighlight>
     </SafeAreaView>

@@ -7,7 +7,7 @@ export default function HomeScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <Main navigation={navigation} />
-            <StatusBar backgroundColor="#ffffff" barStyle={'dark-content'} animated={true}/>
+            <StatusBar backgroundColor="#323232" barStyle="light-content" />
         </View>
     )
 }

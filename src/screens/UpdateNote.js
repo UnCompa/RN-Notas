@@ -8,7 +8,7 @@ export default function UpdatedNote({navigation, route}) {
     return (
         <View>
             <UpdateForm navigation={navigation} item={item}/>
-            <StatusBar style="auto" />
+            <StatusBar backgroundColor="#323232" barStyle="light-content" />
         </View>
     )
 }
