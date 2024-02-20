@@ -13,10 +13,11 @@ import useNotasStore from "../store/Notes";
 import Icon from "react-native-vector-icons/FontAwesome6";
 
 const Main = ({ navigation }) => {
-  const {cargarNotas, notas} = useNotasStore(state => state)
+  const { cargarNotas, notas } = useNotasStore(state => state)
   const [refreshing, setrefreshing] = useState(false);
 
   useEffect(() => {
+    console.log("LOAD");
     cargarNotas();
   }, []);
 
@@ -26,7 +27,6 @@ const Main = ({ navigation }) => {
     await cargarNotas();
     setrefreshing(false);
   });
-
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -59,7 +59,7 @@ const Main = ({ navigation }) => {
         }
       />
       <TouchableHighlight style={styles.create} onPress={() => navigation.navigate('CreateNote')}>
-        <Icon name="plus" size={20} color='#fff'/>
+        <Icon name="plus" size={20} color='#fff' />
       </TouchableHighlight>
     </SafeAreaView>
   );

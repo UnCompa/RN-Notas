@@ -2,38 +2,38 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'rea
 import React from 'react'
 import Icon from 'react-native-vector-icons/Feather'
 import useNotasStore from '../store/Notes'
-import Hyperlink from 'react-native-hyperlink'
+import { Hyperlink } from 'react-native-hyperlink'
 
 export default function DetailsNote({ nota, navigation }) {
-    
+
     const { borrarNota, cargarNotas } = useNotasStore(state => state)
 
     const confirmacion = () => {
         Alert.alert(
-          "Borrando nota",
-          "¿Estas seguro de borrar la nota?",
-          [
-            {
-              text: "Cancelar",
-              onPress: () => console.log("Borrado cancelado"),
-              style: "cancel",
-            },
-            { text: "Borrar", onPress: () => borrandoNota() },
-          ],
-          { cancelable: false }
+            "Borrando nota",
+            "¿Estas seguro de borrar la nota?",
+            [
+                {
+                    text: "Cancelar",
+                    onPress: () => console.log("Borrado cancelado"),
+                    style: "cancel",
+                },
+                { text: "Borrar", onPress: () => borrandoNota() },
+            ],
+            { cancelable: false }
         );
-      };
-    
-      const borrandoNota = async () => {
+    };
+
+    const borrandoNota = async () => {
         const parseID = nota.id
         console.log(parseID);
         const res = await borrarNota(parseID);
         console.log(res);
         if (res.success) {
             navigation.navigate('Home')
-          cargarNotas();
+            cargarNotas();
         }
-      };
+    };
 
     return (
         <View style={styles.container}>
@@ -45,11 +45,11 @@ export default function DetailsNote({ nota, navigation }) {
                     <Text style={styles.details}>{nota.autor}</Text>
                     <Text style={styles.details}>{nota.date}</Text>
                 </View>
-                <ScrollView style={styles.contentContainer}>
-                    <Hyperlink linkDefault={true} linkStyle={styles.link}>
-                    <Text style={styles.content}>{nota.content}</Text>
-                    </Hyperlink>
-                </ScrollView>
+                <Hyperlink linkDefault={true} linkStyle={styles.link}>
+                    <ScrollView style={styles.contentContainer}>
+                        <Text style={styles.content}>{nota.content}</Text>
+                    </ScrollView>
+                </Hyperlink>
             </View>
             <View style={styles.buttons}>
                 <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate('Create', { item: nota })}>
@@ -108,5 +108,5 @@ const styles = StyleSheet.create({
     link: {
         color: '#0af', // Color del texto del enlace
         textDecorationLine: 'underline', // Subrayado del enlace
-      },
+    },
 })

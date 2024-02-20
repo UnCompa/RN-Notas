@@ -1,5 +1,6 @@
 import { View, Text, TextInput, StyleSheet, Pressable, TouchableHighlight, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import * as Notifications from 'expo-notifications'
 import useNotasStore from '../store/Notes'
 import Icon from 'react-native-vector-icons/Feather'
 
@@ -20,25 +21,51 @@ export default function Form({ navigation }) {
             content: content,
             important: check,
         }
-        console.log(NewNote);
         guardarNotas(NewNote)
         navigation.navigate('Home')
+        sendNotification()
         cargarNotas()
     }
+
+    const requestNotificationPermissions = async () => {
+        const { status } = await Notifications.getPermissionsAsync();
+        if (status !== 'granted') {
+            await Notifications.requestPermissionsAsync();
+        }
+    }
+
+    useEffect(() => {
+        console.log('Permisos');
+        requestNotificationPermissions()
+    }, [])
+
+    const sendNotification = async () => {
+        await Notifications.scheduleNotificationAsync({
+            content: {
+                title: title,
+                body: `De: ${autor}`,
+                sound: 'default', // Sonido predeterminado
+                vibrate: true,
+                color: '#FFFFFF',
+            },
+            trigger: null, // Enviar la notificación de inmediato
+        });
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.form}>
                 <Text style={styles.title}>Titulo:</Text>
                 <View style={styles.input}>
-                    <TextInput styles={{ color: "white" }} autoFocus cursorColor={'green'} onChangeText={text => setTitle(text)}></TextInput>
+                    <TextInput style={styles.text} autoFocus cursorColor={'green'} onChangeText={text => setTitle(text)}></TextInput>
                 </View>
                 <Text style={styles.title}>Autor:</Text>
                 <View style={styles.input2}>
-                    <TextInput styles={{ color: "white" }} numberOfLines={1} onChangeText={text => setAutor(text)}></TextInput>
+                    <TextInput style={styles.text} numberOfLines={1} onChangeText={text => setAutor(text)}></TextInput>
                 </View>
                 <Text style={styles.title}>Contenido:</Text>
                 <View style={styles.input3}>
-                    <TextInput styles={{ color: "white" }} multiline onChangeText={text => setContent(text)}></TextInput>
+                    <TextInput  style={styles.text} multiline onChangeText={text => setContent(text)}></TextInput>
                 </View>
                 <Pressable style={{ marginBottom: 24 }} onPress={() => {
                     setIsChecked(!isChecked)
@@ -76,20 +103,20 @@ const styles = StyleSheet.create({
         padding: 6,
         borderLeftWidth: 2,
         borderLeftColor: 'green',
-        backgroundColor: "#fafafa",
+        backgroundColor: "#111111",
     },
     input2: {
         padding: 6,
         borderLeftWidth: 2,
         borderLeftColor: '#0AF',
-        backgroundColor: "#fafafa",
+        backgroundColor: "#111111",
     },
     input3: {
         color: 'white',
         padding: 6,
         borderLeftWidth: 2,
         borderLeftColor: '#0FF',
-        backgroundColor: "#fafafa",
+        backgroundColor: "#111111",
     },
     button: {
         backgroundColor: "#121212",
@@ -115,4 +142,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
     },
+    text: {
+        color: "#FFFFFF",
+    }
 })

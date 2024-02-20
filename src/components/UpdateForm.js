@@ -31,15 +31,15 @@ export default function UpdateForm({ navigation, item }) {
             <ScrollView style={styles.form}>
                 <Text style={styles.title}>Titulo:</Text>
                 <View style={styles.input}>
-                    <TextInput styles={styles.input} value={title} onChangeText={text => setTitle(text)}></TextInput>
+                    <TextInput style={styles.text} value={title} onChangeText={text => setTitle(text)}></TextInput>
                 </View>
                 <Text style={styles.title}>Autor:</Text>
                 <View style={styles.input2}>
-                    <TextInput styles={styles.input} value={autor} onChangeText={text => setAutor(text)}></TextInput>
+                    <TextInput style={styles.text} value={autor} onChangeText={text => setAutor(text)}></TextInput>
                 </View>
                 <Text style={styles.title}>Contenido:</Text>
-                <View style={styles.input2}>
-                    <TextInput styles={styles.input} value={content} multiline onChangeText={text => setContent(text)}></TextInput>
+                <View style={styles.input3}>
+                    <TextInput style={styles.text} value={content} multiline onChangeText={text => setContent(text)}></TextInput>
                 </View>
                 <Pressable onPress={() => {
                     setIsChecked(!isChecked)
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         borderTopColor: 'transparent',
         borderRightColor: 'transparent',
         borderBottomColor: 'transparent',
-        backgroundColor: "#fff",
+        backgroundColor: "#111111",
         color: "#999"
     },
     input2: {
@@ -89,7 +89,14 @@ const styles = StyleSheet.create({
         borderTopColor: 'transparent',
         borderRightColor: 'transparent',
         borderBottomColor: 'transparent',
-        backgroundColor: "#fff"
+        backgroundColor: "#111111"
+    },
+    input3: {
+        color: 'white',
+        padding: 6,
+        borderLeftWidth: 2,
+        borderLeftColor: '#0FF',
+        backgroundColor: "#111111",
     },
     button: {
         backgroundColor: "#121212",
@@ -116,4 +123,7 @@ const styles = StyleSheet.create({
         marginTop: 16,
         marginBottom: 32,
     },
+    text: {
+        color: '#FFF'
+    }
 })
