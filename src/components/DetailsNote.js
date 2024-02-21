@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Linking } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Linking, 
+Share } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Feather'
 import useNotasStore from '../store/Notes'
@@ -39,7 +40,25 @@ export default function DetailsNote({ nota, navigation }) {
         await Clipboard.setStringAsync(`${title} \n ${autor} \n ${content}`)
         alert("Copiado")
     }
-
+    const shareText = async () => {
+        const { title, autor, content, date } = nota
+        const message = (`*${title}* \n-${autor} _${date}_ \n${content}`)
+        const res = await Share.share({
+            message: message,
+            title: "Hola"
+        })
+        if (res.action === Share.sharedAction) {
+            if (res.activityType) {
+              // Compartido exitosamente
+              console.log("Hola 1");
+            } else {
+              // Compartido exitosamente
+              console.log("Hola 2");
+            }
+          } else if (res.action === Share.dismissedAction) {
+            console.log("NOSE");
+          }
+    }
     return (
         <View style={styles.container}>
             <View>
@@ -86,12 +105,7 @@ export default function DetailsNote({ nota, navigation }) {
                 <TouchableOpacity onPress={copyText}>
                     <Icon name="copy" size={25} color="#0af" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
-                    Alert.alert(
-                        "Compartir",
-                        "Sin implementar aun"
-                    )
-                }}>
+                <TouchableOpacity onPress={shareText}>
                     <Icon name="share" size={25} color="green" />
                 </TouchableOpacity>
             </View>
