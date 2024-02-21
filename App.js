@@ -1,17 +1,14 @@
-// In App.js in a new project
-
+import { iniciarNotas } from './src/services/InternalDB'
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./src/screens/HomeScreen";
 import CreateNote from "./src/screens/CreateNote";
 import UpdatedNote from "./src/screens/UpdateNote";
-import Nota from "./src/screens/Nota";
-import Icon from "react-native-vector-icons/Feather";
-
+import Nota from "./src/screens/Nota";;
 const Stack = createNativeStackNavigator();
-
 function App() {
+  iniciarNotas()
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">

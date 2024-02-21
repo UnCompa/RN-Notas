@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Linking } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Feather'
 import useNotasStore from '../store/Notes'
 import { Hyperlink } from 'react-native-hyperlink'
-
+import * as Clipboard from 'expo-clipboard'
 export default function DetailsNote({ nota, navigation }) {
 
     const { borrarNota, cargarNotas } = useNotasStore(state => state)
@@ -34,6 +34,11 @@ export default function DetailsNote({ nota, navigation }) {
             cargarNotas();
         }
     };
+    const copyText = async () => {
+        const { title, autor, content } = nota
+        await Clipboard.setStringAsync(`${title} \n ${autor} \n ${content}`)
+        alert("Copiado")
+    }
 
     return (
         <View style={styles.container}>
@@ -45,18 +50,49 @@ export default function DetailsNote({ nota, navigation }) {
                     <Text style={styles.details}>{nota.autor}</Text>
                     <Text style={styles.details}>{nota.date}</Text>
                 </View>
-                <Hyperlink linkDefault={true} linkStyle={styles.link}>
+                <Hyperlink linkDefault={false} linkStyle={styles.link} onPress={(url) => {
+                    Alert.alert(
+                        "Abrir link",
+                        "¿Quieres abrir el link?",
+                        [
+                            {
+                                text: "Cancelar",
+                                onPress: () => console.log("Cancelado"),
+                                style: "cancel",
+                            },
+                            { text: "Abrir", onPress: () => Linking.openURL(url)},
+                        ],
+                        { cancelable: false }
+                    );
+                }} onLongPress={async (url) => {
+                    await Clipboard.setStringAsync(url)
+                    Alert.alert(
+                        "Portapapeles",
+                        "Copiado al portapapeles",
+                    );
+                }}>
                     <ScrollView style={styles.contentContainer}>
                         <Text style={styles.content}>{nota.content}</Text>
                     </ScrollView>
                 </Hyperlink>
             </View>
             <View style={styles.buttons}>
-                <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate('Create', { item: nota })}>
+                <TouchableOpacity onPress={() => navigation.navigate('Create', { item: nota })}>
                     <Icon name="edit" size={25} color="#fafafa" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button1} onPress={confirmacion}>
+                <TouchableOpacity onPress={confirmacion}>
                     <Icon name="trash" size={25} color="#ef4444" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={copyText}>
+                    <Icon name="copy" size={25} color="#0af" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    Alert.alert(
+                        "Compartir",
+                        "Sin implementar aun"
+                    )
+                }}>
+                    <Icon name="share" size={25} color="green" />
                 </TouchableOpacity>
             </View>
         </View>

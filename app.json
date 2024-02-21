@@ -23,7 +23,28 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.uncompa.myapp"
+      "package": "com.uncompa.myapp",
+      "config": {
+        "intentFilters": [
+          {
+            "action": "VIEW",
+            "data": [
+              {
+                "scheme": "https",
+                "host": "*.*"
+              },
+              {
+                "scheme": "http",
+                "host": "*.*"
+              }
+            ],
+            "category": [
+              "BROWSABLE",
+              "DEFAULT"
+            ]
+          }
+        ]
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

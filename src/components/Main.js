@@ -17,7 +17,6 @@ const Main = ({ navigation }) => {
   const [refreshing, setrefreshing] = useState(false);
 
   useEffect(() => {
-    console.log("LOAD");
     cargarNotas();
   }, []);
 
